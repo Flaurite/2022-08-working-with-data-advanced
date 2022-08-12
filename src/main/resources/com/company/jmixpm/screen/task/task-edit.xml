@@ -7,6 +7,7 @@
                   class="com.company.jmixpm.entity.Task">
             <fetchPlan extends="_base">
                 <property name="assignee" fetchPlan="_base"/>
+                <property name="project" fetchPlan="_base"/>
             </fetchPlan>
             <loader/>
         </instance>
@@ -38,6 +39,7 @@
                 </entityPicker>
                 <dateField id="startDateField" property="startDate"/>
                 <textField id="estimatedEffortsField" property="estimatedEfforts"/>
+                <comboBox id="labelField" property="label"/>
             </column>
         </form>
         <hbox id="editActions" spacing="true">
