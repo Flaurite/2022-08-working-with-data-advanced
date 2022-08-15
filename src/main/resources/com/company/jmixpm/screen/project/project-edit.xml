@@ -95,6 +95,8 @@
         <hbox id="editActions" spacing="true">
             <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
             <button id="closeBtn" action="windowClose"/>
+            <button id="saveWithBeanValidationBtn" caption="Save with Bean Validation"/>
+            <button id="programmaticValidationBtn" caption="Programmatic Validation"/>
         </hbox>
     </layout>
 </window>

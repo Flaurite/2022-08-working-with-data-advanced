@@ -1,14 +1,15 @@
 package com.company.jmixpm.entity;
 
 import com.company.jmixpm.app.datatype.ProjectLabels;
-import io.jmix.core.DeletePolicy;
+import com.company.jmixpm.app.validation.SizeProjectLabels;
+import com.company.jmixpm.app.validation.ValidDateProject;
 import io.jmix.core.annotation.DeletedBy;
 import io.jmix.core.annotation.DeletedDate;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
-import io.jmix.core.entity.annotation.OnDelete;
 import io.jmix.core.metamodel.annotation.Composition;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
+import io.jmix.core.validation.group.UiCrossFieldChecks;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -17,6 +18,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+@ValidDateProject(groups = UiCrossFieldChecks.class)
 @JmixEntity
 @Table(name = "PROJECT", indexes = {
         @Index(name = "IDX_PROJECT_MANAGER", columnList = "MANAGER_ID")
@@ -28,6 +30,10 @@ public class Project {
     @Id
     private UUID id;
 
+    @Column(name = "TOTAL_ESTIMATED_EFFORTS")
+    private Integer totalEstimatedEfforts;
+
+    @SizeProjectLabels(min = 2, max = 5)
     @Column(name = "LABELS")
     private ProjectLabels labels;
 
@@ -68,6 +74,14 @@ public class Project {
     @Column(name = "DELETED_DATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date deletedDate;
+
+    public Integer getTotalEstimatedEfforts() {
+        return totalEstimatedEfforts;
+    }
+
+    public void setTotalEstimatedEfforts(Integer totalEstimatedEfforts) {
+        this.totalEstimatedEfforts = totalEstimatedEfforts;
+    }
 
     public Date getDeletedDate() {
         return deletedDate;

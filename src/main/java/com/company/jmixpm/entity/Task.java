@@ -1,5 +1,6 @@
 package com.company.jmixpm.entity;
 
+import com.company.jmixpm.app.TaskJpaListener;
 import io.jmix.core.DeletePolicy;
 import io.jmix.core.annotation.DeletedBy;
 import io.jmix.core.annotation.DeletedDate;
@@ -7,13 +8,17 @@ import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.entity.annotation.OnDeleteInverse;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
+import io.jmix.core.metamodel.annotation.JmixProperty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.UUID;
 
+@EntityListeners(TaskJpaListener.class)
 @JmixEntity
 @Table(name = "TASK_", indexes = {
         @Index(name = "IDX_TASK__PROJECT", columnList = "PROJECT_ID")
@@ -24,6 +29,13 @@ public class Task {
     @Column(name = "ID", nullable = false)
     @Id
     private UUID id;
+
+    @JmixProperty
+    @Transient
+    private LocalDateTime supposedEndDate;
+
+    @Column(name = "IS_CLOSED")
+    private Boolean isClosed;
 
     @Column(name = "LABEL")
     private String label;
@@ -57,6 +69,22 @@ public class Task {
     @Column(name = "DELETED_DATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date deletedDate;
+
+    public LocalDateTime getSupposedEndDate() {
+        return supposedEndDate;
+    }
+
+    public void setSupposedEndDate(LocalDateTime supposedEndDate) {
+        this.supposedEndDate = supposedEndDate;
+    }
+
+    public Boolean getIsClosed() {
+        return isClosed;
+    }
+
+    public void setIsClosed(Boolean isClosed) {
+        this.isClosed = isClosed;
+    }
 
     public Date getDeletedDate() {
         return deletedDate;
@@ -128,5 +156,16 @@ public class Task {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+
+    @PostLoad
+    public void postLoad() {
+        if (estimatedEfforts != null) {
+            supposedEndDate = startDate != null
+                    ? startDate
+                    : LocalDateTime.of(LocalDate.now(), LocalTime.now());
+            supposedEndDate = supposedEndDate.plusHours(estimatedEfforts);
+        }
     }
 }

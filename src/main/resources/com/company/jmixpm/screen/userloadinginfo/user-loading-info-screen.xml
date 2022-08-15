@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://jmix.io/schema/ui/window"
+        caption="msg://userLoadingInfoScreen.caption">
+    <data>
+        <keyValueInstance id="userLoadingInfoDc">
+            <properties>
+                <property name="assignee" class="com.company.jmixpm.entity.User"/>
+                <property name="estimatedEfforts" datatype="long"/>
+            </properties>
+        </keyValueInstance>
+    </data>
+    <dialogMode forceDialog="true"/>
+    <actions>
+        <action id="closeWindow" caption="Close" icon="DIALOG_CLOSE"/>
+    </actions>
+    <layout>
+        <form id="form" dataContainer="userLoadingInfoDc">
+            <column width="400px">
+                <entityPicker id="assigneeField" property="assignee"/>
+                <textField id="estimatedEffortsField" property="estimatedEfforts"/>
+                <hbox width="100%">
+                    <button id="closeWindowBtn" action="closeWindow" align="MIDDLE_RIGHT"/>
+                </hbox>
+            </column>
+        </form>
+    </layout>
+</window>

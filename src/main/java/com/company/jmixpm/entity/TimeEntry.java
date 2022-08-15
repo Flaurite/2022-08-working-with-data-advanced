@@ -3,9 +3,12 @@ package com.company.jmixpm.entity;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -26,10 +29,12 @@ public class TimeEntry {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Task task;
 
+    @Positive(message = "Spent time ${validatedValue} cannot be less or equal zero")
     @Column(name = "TIME_SPENT", nullable = false)
     @NotNull
     private Integer timeSpent;
 
+    @PastOrPresent
     @Column(name = "ENTRY_DATE")
     private LocalDateTime entryDate;
 
@@ -37,6 +42,7 @@ public class TimeEntry {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
+    @Length(message = "{msg://com.company.jmixpm.entity/TimeEntry.description.validation.Length}", min = 10)
     @InstanceName
     @Column(name = "DESCRIPTION")
     @Lob

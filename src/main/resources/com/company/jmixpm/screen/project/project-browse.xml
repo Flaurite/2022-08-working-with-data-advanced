@@ -52,6 +52,7 @@
                 <column id="manager"/>
                 <column id="status"/>
                 <column id="labels"/>
+                <column id="totalEstimatedEfforts"/>
             </columns>
             <simplePagination/>
             <buttonsPanel id="buttonsPanel"

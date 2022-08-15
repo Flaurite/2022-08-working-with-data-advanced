@@ -17,7 +17,7 @@ public class TaskEdit extends StandardEditor<Task> {
     @Subscribe
     public void onAfterShow(AfterShowEvent event) {
         Project project = getEditedEntity().getProject();
-        if (project != null) {
+        if (project != null && project.getLabels() != null) {
             labelField.setOptionsList(project.getLabels().getLabels());
         }
     }
