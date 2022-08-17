@@ -7,7 +7,6 @@
         <collection id="customersDc"
                     class="com.company.jmixpm.entity.Customer">
             <fetchPlan extends="_base">
-                <property name="project" fetchPlan="_base"/>
             </fetchPlan>
             <loader id="customersDl">
                 <query>
@@ -49,7 +48,6 @@
                 <column id="firstName"/>
                 <column id="lastName"/>
                 <column id="email"/>
-                <column id="project"/>
             </columns>
             <simplePagination/>
             <buttonsPanel id="buttonsPanel"

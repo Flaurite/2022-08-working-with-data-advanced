@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://jmix.io/schema/ui/window"
+        caption="msg://taskEntityLog.caption">
+    <data>
+        <collection id="tasksDc"
+                    class="com.company.jmixpm.entity.Task">
+            <fetchPlan extends="_base"/>
+            <loader id="tasksDl">
+                <query>
+                    <![CDATA[select e from Task_ e]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="entityLogItemsDc" class="io.jmix.audit.entity.EntityLogItem">
+            <fetchPlan extends="_base"/>
+            <loader id="entityLogItemsDl">
+                <query>
+                    <![CDATA[select e from audit_EntityLog e where e.entityRef.entityId = :id
+                        order by e.eventTs]]>
+                </query>
+            </loader>
+            <collection id="entityLogAttrDc" property="attributes"/>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator>
+            <refresh loader="tasksDl">
+                <onScreenEvent type="BeforeShow"/>
+            </refresh>
+            <refresh loader="entityLogItemsDl">
+                <onComponentValueChanged component="taskField" param="id"/>
+            </refresh>
+        </dataLoadCoordinator>
+    </facets>
+    <layout expand="entityLogBox" spacing="true">
+        <comboBox id="taskField"/>
+        <hbox id="entityLogBox" width="100%" spacing="true">
+            <table id="logTable"
+                   dataContainer="entityLogItemsDc"
+                   width="100%"
+                   height="100%">
+                <columns>
+                    <column id="eventTs"/>
+                    <column id="username"/>
+                    <column id="type"/>
+                </columns>
+            </table>
+            <table id="attrTable"
+                   dataContainer="entityLogAttrDc"
+                   width="100%"
+                   height="100%">
+                <columns>
+                    <column id="name"/>
+                    <column id="oldValue"/>
+                    <column id="value"/>
+                </columns>
+            </table>
+        </hbox>
+    </layout>
+</window>

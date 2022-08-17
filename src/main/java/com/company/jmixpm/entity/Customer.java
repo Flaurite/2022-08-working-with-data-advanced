@@ -1,10 +1,12 @@
 package com.company.jmixpm.entity;
 
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
-import io.jmix.core.entity.annotation.SystemLevel;
-import io.jmix.core.metamodel.annotation.*;
+import io.jmix.core.metamodel.annotation.InstanceName;
+import io.jmix.core.metamodel.annotation.JmixEntity;
+import io.jmix.core.metamodel.annotation.Store;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 @JmixEntity
@@ -27,29 +29,27 @@ public class Customer {
     @Column(name = "EMAIL")
     private String email;
 
-    @SystemLevel
-    @Column(name = "PROJECT_ID")
-    private UUID projectId;
+    @OneToMany(mappedBy = "customer")
+    private List<Order> order;
 
-    @DependsOnProperties({"projectId"})
-    @JmixProperty
-    @Transient
-    private Project project;
+    @Column(name = "VERSION", nullable = false)
+    @Version
+    private Integer version;
 
-    public Project getProject() {
-        return project;
+    public Integer getVersion() {
+        return version;
     }
 
-    public void setProject(Project project) {
-        this.project = project;
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 
-    public UUID getProjectId() {
-        return projectId;
+    public List<Order> getOrder() {
+        return order;
     }
 
-    public void setProjectId(UUID projectId) {
-        this.projectId = projectId;
+    public void setOrder(List<Order> order) {
+        this.order = order;
     }
 
     public String getEmail() {
