@@ -22,7 +22,8 @@ public class TaskChangedListener {
         this.dataManager = dataManager;
     }
 
-    @EventListener
+    // stackoverflow while using DynamicAttributesPanel?
+//    @EventListener
     public void onTaskChangedEvent(EntityChangedEvent<Task> event) {
         Project project;
         if (event.getType() == EntityChangedEvent.Type.DELETED) {
